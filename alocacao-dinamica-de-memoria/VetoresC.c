@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "vetor.h"
 
 int *criaVetInt(int n){
 	int *vet = (int *)malloc(n * sizeof(int));
@@ -17,16 +18,4 @@ float *criaVetFloat(float f){
 		exit(EXIT_FAILURE);
 	}
 	return vet;
-}
-
-int main(){
-	int n = 2;
-	int *endereco;
-       	endereco = criaVetInt(n);
-	endereco[0] = 10; 
-
-	// printf("%p\n", &endereco);
-	printf("%d\n", endereco[0]);
-	
-	return 0;
 }
