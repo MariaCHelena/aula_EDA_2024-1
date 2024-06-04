@@ -10,7 +10,7 @@ int smallerIndex(int *vet, int tam, int ini){
 	return min;
 }
 
-void selectionSort(int *vet, int tam){
+int selectionSort(int *vet, int tam){
 	int i, min, aux;
 	for(i = 0; i < tam; i++){
 		min = smallerIndex(vet, tam, i);
@@ -20,7 +20,7 @@ void selectionSort(int *vet, int tam){
 	}
 }
 
-void printVet(int *vet, int tam, char *label){
+int printVet(int *vet, int tam, char *label){
 	printf("%s\n", label);
 	for(int i = 0; i < tam; i++){
 		printf("%d ", vet[i]);
@@ -29,33 +29,37 @@ void printVet(int *vet, int tam, char *label){
 
 }
 
-void getField(int *vet, int *pos, char *label){
-	int countField = 0, temp = 0;
-	for(int i = 0; i < 1024; i++){
+int getField(int *vet, FILE *file){
+	char ch;
+	int temp = 0, count = 0, pos = 0;
+	while(1){
+		ch = fgetc(file);
+		if(ch == EOF)
+			break;
 		if(count < 4){
-			if(label[i] == 59)
+			if(ch == 59)
 				count++;
 		} else {
-			if(label[i] == 10)
-				break;
-			temp = temp * 10 + label[i];
+			if(ch == 10){
+				pos++;
+				count = 0;
+			} else {
+				vet[pos] = vet[pos] * 10 + (ch - '0');
+			}
 		}
 	}
-	vet[*pos];
-	*pos++;
 }
 
 int main(){
-	int vet[], tam, count = 1, pos;
+	int *vet, tam, count, pos;
 	FILE *f;
-	char file[50], ch, line[1024];
-	
-	printf("Digite qual arquivo que deseja ler:\n");
-	scanf("%s", file);
+	char ch, line[1024];
 
- 	f = fopen(file, "r");
+ 	f = fopen("data.csv", "r");
 
-  	while(1){
+	/*
+
+	while(1){
 		ch = fgetc(f);
 		if(ch == EOF)
 			break;
@@ -64,26 +68,43 @@ int main(){
 		}
 	}
 
-	vet = malloc(count * sizeof int);
-  	
-	while(fgets(line, 1024, f)){
+	vet = malloc(count);
+
+	*/
+
+	int temp = 0;
+	pos = 0;
+	count = 0;
+	while(1){
+		ch = fgetc(f);
 		if(ch == EOF)
 			break;
-		putchar(ch);
-		if(ch == 10){
-			count++;
+		if(count < 6){
+			if(ch == 59)
+				count++;
+		} else {
+			if(ch == 10){
+				break;
+			} else {
+				putchar(ch);
+				printf("\n%d\n", ch);
+			}
 		}
 	}
 
-	fclose(f);
-	
-	printVet(vet, tam, "Vetor desordenado");
-	
-	selectionSort(vet, tam);
-	
-	printVet(vet, tam, "Vetor ordenado");
+	//printf("%d\n", vet[0]);
 
-	puts("");
+	//printVet(vet, count, "Vetor dos bagulho lah tlg");
+
+	fclose(f);
+
+	/*
+		printVet(vet, tam, "Vetor desordenado");
+
+		selectionSort(vet, tam);
+
+		printVet(vet, tam, "Vetor ordenado");
+	*/
 
 	return 0;
 }
