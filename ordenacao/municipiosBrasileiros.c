@@ -51,50 +51,59 @@ int getField(int *vet, FILE *file){
 }
 
 int main(){
-	int *vet, tam, count, pos;
+	int vet[5570], tam, count, pos, countPV = 0;
 	FILE *f;
 	char ch, line[1024];
 
  	f = fopen("data.csv", "r");
 
 	/*
-
 	while(1){
 		ch = fgetc(f);
 		if(ch == EOF)
 			break;
 		if(ch == 10){
-			count++;
+			tam++;
 		}
 	}
-
-	vet = malloc(count);
+	vet =  malloc(6000 * sizeof(int));
 
 	*/
 
-	int temp = 0;
-	pos = 0;
+	int temp = 0, isFirst = 0;
+	pos = -1;
 	count = 0;
 	while(1){
 		ch = fgetc(f);
 		if(ch == EOF)
 			break;
-		if(count < 6){
+		if(count < 4){
 			if(ch == 59)
 				count++;
 		} else {
 			if(ch == 10){
-				break;
+				count = 0;
+				if(pos != -1){
+					isFirst = 1;
+				}
+				if(isFirst){
+					vet[pos] = temp;
+//					printf("%d\n", temp);
+				}
+				temp = 0;
+				pos++;
 			} else {
-				putchar(ch);
-				printf("\n%d\n", ch);
+				int char_int = ch - '0';
+				if(char_int >= 0)
+					temp = temp * 10 + char_int;
 			}
 		}
 	}
 
-	//printf("%d\n", vet[0]);
+//	printf("%d\n", pos);
+//	printf("%d", vet[0]);
 
-	//printVet(vet, count, "Vetor dos bagulho lah tlg");
+	printVet(vet, tam, "Vetor dos bagulho lah tlg");
 
 	fclose(f);
 
